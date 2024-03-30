@@ -1,0 +1,79 @@
+﻿@{
+    ViewBag.Title = "INDEX2";
+    Layout = "~/Views/Shared/LAYOUT.cshtml";
+}
+<style>
+    .item .row{
+        margin-bottom:20px;
+    }
+    .loi{
+        color:red;
+        font-size:13px;
+    }
+</style>
+<div class="container" style="padding-top:40px; position:relative;">
+    <div class="item" style="padding:30px; width:550px; position:absolute; left:50%; transform: translateX(-50%);">
+        <center><h2>ĐĂNG KÝ</h2></center>
+
+            @using (Html.BeginForm())
+            {
+                @Html.ValidationSummary(true)
+                {
+                    <div class="row">
+                        <span>Họ tên KH</span>
+                        <div>
+                            @Html.TextBox("HotenKH", "", new { @class = "form-control" })
+                       </div>
+                        <span class="loi">@ViewData["Loi1"]</span>
+                        </div>
+    <div class="row">
+        <span>Tên đăng nhập</span>
+        <div>@Html.TextBox("TenDN", "", new { @class = "form-control" })</div>
+        <span class="loi">@ViewData["Loi2"]</span>
+    </div>
+    <div class="row">
+        <span>Mật khẩu</span>
+        <div>@Html.Password("Matkhau", "", new { @class = "form-control" }) </div>
+        <span class="loi">@ViewData["Loi3"]</span>
+    </div>
+    <div class="row">
+        <span>Nhập lại Mật khẩu</span>
+        <div>@Html.Password("ReMatkhau", "", new { @class = "form-control" }) </div>
+        <span class="loi">@ViewData["Loi4"]</span>
+    </div>
+    <div class="row">
+        <span>Điện thoại</span>
+        <div><input name="Dienthoai" type="text" oninput="CheckPhone(this)" maxlength="10" class="form-control" /> </div>
+        <span class="loi">@ViewData["Loi5"]</span>
+    </div>
+    <div class="row">
+        <span>Ngày sinh</span>
+        <div><input type="date" name="NgaySinh"  class="form-control" /> </div>
+    </div>
+    <div class="row">
+        <span>Email</span>
+        <div><input type="text" name="Email"class="form-control" /> </div>
+    </div>
+    <div class="row">
+        <span>Địa Chỉ</span>
+        <div><input type="text" name="Diachi" class="form-control" /> </div>
+        <span class="loi">@ViewData["Loi6"]</span>
+    </div> 
+                <div class="row"><center> <input type="submit" value="ĐĂNG KÝ" class="btn btn-dark w-75 " /> </center></div>                   
+
+                }
+            }
+
+    </div>
+</div>
+<script>
+    let gt = "";
+    function CheckPhone(e) {
+        if (e.value != "") {
+            let tam = e.value
+            let a = parseInt(e.value)
+            gt = (isNaN(a)) ? gt : tam;
+            e.value = gt;
+        }
+    }
+</script>

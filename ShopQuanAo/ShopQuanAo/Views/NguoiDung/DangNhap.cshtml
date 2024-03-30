@@ -1,0 +1,45 @@
+﻿@{
+    ViewBag.Title = "INDEX2";
+    Layout = "~/Views/Shared/LAYOUT.cshtml";
+}
+
+<div class="container" style="margin-top:80px; display:flex; position:relative;">    
+        <div class="item" style="width:500px; height:440px; position:absolute; left:50%; transform:translateX(-50%); border:1px solid #00ffff; border-radius:5px; padding:40px 30px;">
+            <center><h2>ĐĂNG NHẬP</h2></center>
+@using (Html.BeginForm())
+{
+
+    <div style="padding-top:30px; ">
+        <div class="row" style="margin-bottom:60px;">
+                    
+            @Html.ValidationSummary(true)
+            <span style="float:left;">
+                Tên đăng nhập
+            </span>
+            <div>
+                <input name="TenDN" type="text" value="@ViewBag.ten" class="form-control" />
+                <div style="position:relative">
+                    <span style="color:crimson;left:0px; position:absolute; font-size:14px;"> @ViewData["Loi1"]</span>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom:50px;">
+            <span>
+                Mật khẩu
+            </span>
+            <div >
+                <input name="Matkhau" type="password" value="@ViewBag.mk" class="form-control" />
+                <div style="position:relative">
+                    <span style="color:crimson;left:0px; position:absolute; font-size:14px;"> @ViewData["Loi2"]</span>
+                    <span style="color:crimson;left:0px; position:absolute; font-size:14px;"> @ViewBag.TB</span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <center><input style="height:40px;" type="submit" value="ĐĂNG NHẬP" class="btn btn-dark w-75" /></center>
+        <span>Bạn chưa có tài khoản? <a style="color:blue" href="/NguoiDung/DangKy">Đăng ký</a></span>
+        </div></div>
+}
+        </div>
+
+</div>

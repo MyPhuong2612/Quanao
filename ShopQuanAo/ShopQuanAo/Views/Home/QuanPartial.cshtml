@@ -1,0 +1,10 @@
+﻿@using ShopQuanAo.Models;
+@model List<Loai>
+<ul>
+    @foreach (var item in Model)
+    {
+        <li class="list-group-item">
+            <a href="@Url.Action("QuanAoTheoLoai", "QuanAo", new { MaLoai = item.MaLoai })">@item.TenLoai</a>
+        </li>
+    }
+</ul>

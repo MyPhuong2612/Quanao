@@ -1,0 +1,31 @@
+﻿@model IEnumerable<ShopQuanAo.Models.QuanAo>
+
+@{
+    ViewBag.Title = "INDEX2";
+    Layout = "~/Views/Shared/LAYOUT.cshtml";
+}
+
+<div class="container">
+    @if (Model.Count() == 0)
+    {
+        <center>
+            Không có sản phẩm nào theo loại này!
+        </center>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <a href="@Url.Action("XemChiTiet", "QuanAo", new {mqa = item.MaQA})" class="col-3 cardd" style=" text-align:center;justify-content:center;align-items:center; border:1px dotted #000000; height:380px; display:flex">
+                    <div style="position: relative; width: 65%; height: 70%;">
+                        <img src="/Image/@item.Anh" style=" width:100%; height:80%;" alt="Image" /><br />
+                        <strong style="color:black;">@item.TenQA</strong><br />
+                        <strong style="color:crimson;">@string.Format("{0:0,0}", item.GiaBan)đ</strong><br />
+
+                    </div>
+                </a>
+            }
+        </div>
+    }
+</div>

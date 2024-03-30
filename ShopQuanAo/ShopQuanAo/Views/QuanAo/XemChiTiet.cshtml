@@ -1,0 +1,168 @@
+﻿@model ShopQuanAo.Models.QuanAo
+           @using ShopQuanAo.Models
+@{
+    List<BinhLuan> bls = ViewBag.bls as List<BinhLuan>;
+    List<TraLoiBinhLuan> tlbls = ViewBag.tlbls  as List<TraLoiBinhLuan>;
+    ViewBag.Title = "INDEX2";
+    Layout = "~/Views/Shared/LAYOUT.cshtml";
+    
+}
+<style>
+    /* *{
+        border:1px solid #000000;
+    }*/
+    .sp {
+        font-size: 23px;
+        margin-bottom: 50px;
+    }
+
+        .sp span {
+            float: left;
+        }
+
+            .sp span b {
+                color: blue;
+            }
+</style>
+<br />
+<div class="container">
+    <div class="row" style="background-color:white;  padding:30px; margin:10px; border-radius:10px; border:2px solid #000000; height:550px;">
+        <div class="row w-100 h-100" style="position:relative">
+            <div class="col-4 h-100">
+                <div class="w-100" style="height:85%">
+                    <img style="width:100%; height:100%" src="/Image/@Model.Anh" />
+                </div>
+                                
+            </div>
+            <div class="col-8" style="padding:20px 20px 20px 150px;">
+                <div class="row sp">                    
+                    <center> <h2>@Model.TenQA</h2></center>
+                </div>
+                <div class="row sp">                    
+                        <span style="color:crimson; font-weight:bold">@string.Format("{0:0,0}", Model.GiaBan) VNĐ</span>
+                </div>
+                <div class="row sp">
+                    <div class="col-5">
+                        <span>Loại áo:&nbsp; </span> <span style="color:blue"> @Model.Loai.TenLoai</span>
+                    </div>
+                    <div class="col-7">
+                        
+                    </div>
+                </div>
+                @*<div class="row sp">
+                    <div class="col-5">
+                        <span>Mô tả:</span>
+                    </div>
+                    <div class="col-7">
+                        <span>@Model.MoTa</span>
+                    </div>
+                </div>*@                
+                <div class="row sp">
+                    <div class="col-5">
+                        <span>Số lượng còn:</span>
+                    </div>
+                    <div class="col-7">
+                        <span>@Model.SLTon</span>
+                    </div>
+                </div>
+                <div class="row" style="margin-top:30px;">
+                    <div class="col-5">
+                        <a href="@Url.Action("ThemQAVaoGioHang","GioHang",new {mqa = Model.MaQA, url = Request.Url.ToString() })" style="height:45px; font-size:20px;" class="w-150 btn btn-danger">THÊM VÀO GIỎ HÀNG</a>
+                    </div>
+                    <div class="col-5 offset-2">
+                        @*<button style="height: 45px; font-size: 20px;" class="w-120 btn btn-primary">MUA TIẾP</button>*@
+                        <a href="@Url.Action("Index","Home",new {mqa = Model.MaQA, url = Request.Url.ToString() })" style="height:45px; font-size:20px;" class="w-150 btn btn-dark">MUA TIẾP</a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-12 " style="padding:0px 30px;">
+            <div class="item row" style="padding:20px;">
+                <center><h4>Bình luận</h4></center>
+                <hr />
+@using (Html.BeginForm("BinhLuan", "QuanAo", new {maQA = Model.MaQA, url = Request.Url.ToString() }))
+                    {
+                <div class="row" style="margin-bottom:10px;">
+                    
+                    <div class="col-10">
+                        <input type="text" maxlength="100" name="NoiDung" style="border:1px solid #808080; float:right" class="btn btn-light w-100" placeholder="Nhập nội dung bình luận" />
+                    </div>
+                    <div class="col-2">
+                        <button type="submit" class="btn btn-dark w-100">Gửi</button>
+                    </div>
+                    
+                </div>
+}
+                @foreach (var item in bls)
+                { 
+                <div class="row">                    
+                    <b>@item.KhachHang.HoTen</b><br />
+                    <span style="color:#808080; font-size: 12px;">@item.NgayDang</span><br />
+                    <span>@item.NoiDung</span><br />
+                    <span><a class="XemTraLoi" style="color:blue; font-size:13px; cursor:pointer;">Phản hồi</a></span>
+                    <div class="ListTraLoi" style="margin-left:20px; display:none; border-left:1px solid #808080; border-bottom:1px solid #808080; border-bottom-left-radius:5px;  padding:0px;padding-top:10px;">
+                        @using (Html.BeginForm("TraLoiBinhLuan", "QuanAo", new {maBL = item.MaBL, maQA = Model.MaQA, url = Request.Url.ToString()}))
+                        {
+                            <div class="row" style="margin-bottom:10px; margin-left:2px;">
+
+                                <div class="col-10">
+                                    <input type="text" maxlength="100" name="NoiDung" style="border:1px solid #808080; float:right" class="btn btn-light w-100" placeholder="Trả lời bình luận" />
+                                </div>
+                                <div class="col-2">
+                                    <button type="submit" class="btn btn-outline-dark">Trả lời</button>
+                                </div>
+                            </div>
+                        }
+                        @{
+                    List<TraLoiBinhLuan> TLs = tlbls.FindAll(s => s.MaBL == item.MaBL);
+                              }
+                        @foreach (var i in TLs)
+                        { 
+                        <div>
+                            <span style="float:left;">--&nbsp;</span>
+                            <div>
+                                <b style="font-size:15px;">@i.KhachHang.HoTen</b><br />
+                                <span style="color:#808080; font-size:10px;">@i.NgayDang</span><br  />
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:15px; ">@i.NoiDung</span><br />
+                            </div>
+                        </div>
+                        <hr style="margin: 10px" />
+                        }
+                        <a style="height:30px; padding:0; margin:2px; padding-top:2px; border-radius:5px; font-size:15px;" class="AnPhanHoi btn btn-outline-dark w-100">Ẩn phản hồi</a>                       
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+        <div class="col-lg-6 col-12 " style="padding:0px 30px;">
+            <div class="row item" style="padding:20px;  position:sticky; top:115px;">
+                <center>Mô tả sản phẩm</center>
+                <hr />
+                <div class="row" style="padding:20px;">
+                    @Model.MoTa
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const ListTraLois = document.querySelectorAll('.ListTraLoi')
+    const XemTraLois = document.querySelectorAll('.XemTraLoi')
+    const AnPhanHois = document.querySelectorAll('.AnPhanHoi')
+    
+    for(var i = 0;i<XemTraLois.length;i++)
+    {
+        let vt = i;
+        XemTraLois[i].addEventListener("click", function () {
+            XemTraLois[vt].style.display = 'none';
+            ListTraLois[vt].style.display = 'block';
+        })
+        AnPhanHois[i].addEventListener("click", function () {
+            XemTraLois[vt].style.display = 'block';
+            ListTraLois[vt].style.display = 'none';
+        })
+    }
+</script>

@@ -1,0 +1,176 @@
+﻿@{
+    ViewBag.Title = "INDEX2";
+    Layout = "~/Views/Shared/LAYOUT.cshtml";
+}
+@model IEnumerable<ShopQuanAo.Models.GioHang>
+
+<style>
+    .cong,
+    .tru{
+        border:1px solid #1ac7f5;
+        padding:1px;
+        cursor:pointer;
+        font-weight:bold;
+        width:23px;
+        background-color:#1ac7f5;
+    }
+    .cong{
+        border-bottom-left-radius:5px;
+        border-top-left-radius:5px;
+        margin-right:-1px;
+    }
+    .tru{
+        border-bottom-right-radius:5px;
+        border-top-right-radius:5px;
+        margin-left:-1px;
+    }
+    .hienthi_sl{
+        text-align:center;
+        border:1px solid #1ac7f5;;
+        height:30.5px;
+        width:50px;
+    }
+    table tr th{
+        text-align:center;
+    }
+    table tr td{
+        text-align:center;
+    }
+</style>
+<div class="container" style="margin-top:20px;">
+    <hr />
+    @if (Convert.ToInt32(ViewBag.tsl) == 0)
+    {
+        <style>
+            .quaylaitrangchu {
+                color: white;
+                font-size: 20px;
+            }
+        </style>
+            <div class="item w-100" style="height:600px; display:flex; align-items:center; text-align:center; justify-content:center;">
+                <div>
+                    <img src="/Image/giohangtrong.jpg" class="w-75" style="margin-bottom:90px;" />
+                    <center><a href="/QuanAo/QuanAoPartial" class="btn CHKSP quaylaitrangchu btn-info">Quay lại trang chủ!!!</a></center>
+                </div>
+            </div>
+    }
+    else
+    {
+        <div style="border: 1px solid #000000; background-color: #fffee0; background-color: white; border-radius: 3px; ">
+            @using (Html.BeginForm("CapNhatGioHang", "GioHang"))
+            {
+                int i = 0;
+                <table class="table">
+                    <thead style=" background-color:#fffee0">
+                        <tr>
+                            <th style="width:30%;">TÊN SẢN PHẨM</th>
+                            <th>ĐƠN GIÁ</th>
+                            <th style="text-align:left;">SỐ LƯỢNG</th>
+                            <th>THÀNH TIỀN</th>
+                            <th width="30px"><center><input type="submit" value="Update" class="btn-primary btn"></center></th>
+                        </tr>
+                    </thead>
+                    @foreach (var item in Model)
+                    {
+
+                        <tr>
+
+                            <td>
+                                <img style="width:90px; height:80px;" src="/Image/@item.Anh" />
+                                <b>@item.TenSP</b>
+                            </td>                            
+                            <td>@string.Format("{0:0,0}", item.Gia)đ </td>
+                            <td style="width:160px;">
+                                <center>
+                                    <div>
+                                        <div class="cong" style="float:left; font-size:20px; font-weight:bold">
+                                            +
+                                        </div>
+                                        <input style="float:left;" class="hienthi_sl" type="text" value="@item.Sl" name="@("Sl"+i++.ToString())" />
+                                        <div class="tru" style="font-size: 20px; float:left; font-weight:bold">
+                                            -
+                                        </div>
+                                        <div style="clear:both"></div>
+                                    </div>
+                                </center>
+
+                                <div class="loi_sluongsp" style="display:none; color:red; font-size:13px;">
+                                    Không được bỏ trống!
+                                </div>
+                            </td>
+                            <td>@string.Format("{0:0,0}", item.ThanhTien)đ</td>
+                            <td>
+                                <a href="@Url.Action("XemChiTiet", "QuanAo", new { mqa = item.MaSP })" style="text-decoration:none;">Xem chi tiết</a><br />
+                                @Html.ActionLink("Xóa", "XoaGioHang", new { masp = item.MaSP })
+                            </td>
+
+                        </tr>
+                    }
+
+                </table>
+
+
+            }
+
+            <div class="row w-100" style=" background-color:#fffee0; margin:0; height:60px; border-top:1px solid #DDDDDD; padding-top:15px;">
+                <div class="offset-5 col-7">
+                    <div class="row">
+                        <div class="col-3">
+                            <b style="color:darkblue">Tổng cộng:</b>
+                        </div>
+                        <div class="col-2">
+                            <b style="color:red">SL:@ViewBag.tsl</b>
+                        </div>
+                        <div class="col-7">
+                            <b style="color:red">Tổng Tiền: @string.Format("{0:0,0}", ViewBag.tt) VNĐ</b>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div style="color:black; margin:20px;">
+            <a class="btn btn-danger" style="float:right;" href="@Url.Action("DatHang", "GioHang", new { url = Request.Url.ToString() })">Đặt hàng</a>
+        </div>
+
+        <script>
+            const sl = document.querySelectorAll('.hienthi_sl'); //Đọc tất cả phẩn tử thuộc lớp hienthi_sl
+            let gt = []
+            for (var i = 0; i < sl.length; i++)
+                gt.push(sl[i].value)
+            const cong = document.querySelectorAll('.cong'); //truy vân tất cả phần tử
+            const tru = document.querySelectorAll('.tru');
+            const loi_sluongsp = document.querySelectorAll('.loi_sluongsp')
+            for (var i = 0; i < cong.length; i++) {
+                let vt = i;
+                cong[vt].addEventListener("click", function () {
+                    gt[vt]++;
+                    sl[vt].value = gt[vt]
+                })
+            }
+            for (var i = 0; i < tru.length; i++) {
+                let vt = i;
+                tru[i].addEventListener("click", function () {
+                    if (gt[vt] > 1) {
+                        gt[vt]--
+                    }
+                    sl[vt].value = gt[vt]
+                })
+            }
+            for (var i = 0; i < sl.length; i++) {
+                let vt = i;
+                sl[i].addEventListener("input", function () {
+                    if (sl[vt].value.trim() != "") {
+                        let a = parseInt(sl[vt].value)
+                        sl[vt].value = (isNaN(a) || a == 0) ? 1 : a; // chuỗi là 1, số = a
+                        gt[vt] = sl[vt].value;
+                        loi_sluongsp[vt].style.display = 'none';
+                    }
+                    else
+                        loi_sluongsp[vt].style.display = 'block';
+                })
+            }
+        </script>
+    }
+</div>
